@@ -1,0 +1,148 @@
+with main; version=80 ;
+  type=mbs;  autogravity=true;  symbolic = false; size=1; scene=1; 
+  objectidentifier=UMObject;
+  bkgcolor=16777215; gridcolor=16448; axessaturation= 1.E2; 
+  gridstep= 5.E-1; axelengthx= 3.; axelengthy= 3.; axelengthz= 3.; 
+  rotationstyle = z;
+  mousepick=false;
+  a={-0.138345054245852 0.212651490118489 0.967284854484969 0 0.976676487569949 -0.214716181569936 -0.990384090121451 -0.0297049217867551 -0.135118361653508};
+  target={0.29 0.18 0.533433520097619};
+  distance=10;
+  sensitivity_threshold=0.050;
+with egravity; gravityz=-1; 
+with go;
+  name="base";
+  p1x=; p1y=; p1z=; p2x=; p2y=; p2z=; 
+  with ge; type=BAR;
+  VisibleSide=vsFront;  material=255,6520998,0,0,10,1;
+  p1x=; p1y=; p1z=; p2x=; p2y=; p2z=; 
+  width=1;
+  Density=780; SurfaceWidth=5; WireSection=5;
+  discret=0;  box=0.5,0.04,0.5;
+  with ge; type=PLATE;
+  VisibleSide=vsBoth;  material=255,6520998,0,0,10,1;
+  p1x=; p1y=; p1z=; p2x=; p2y=; p2z=; 
+  width=1;
+  Density=780; SurfaceWidth=5; WireSection=5;
+  x1=; y1=; z1=;
+  x2=; y2=0.5; z2=;
+  x3=; y3=; z3=0.5;
+  r=0.05; w=0.04;
+
+with go;
+  name="hip";
+  p1x=; p1y=; p1z=; p2x=; p2y=; p2z=; 
+  with ge; type=LINK;
+  VisibleSide=vsBoth;  material=65535,6520998,0,0,10,1;
+  p1x=; p1y=; p1z=; p2x=0.04; p2y=; p2z=; axis1=1; angle1=90; 
+  width=1;
+  Density=780; SurfaceWidth=5; WireSection=5;
+  x1=; y1=; z1=;
+  x2=; y2=1; z2=;
+  r=0.1; w=0.04; plane = 1;
+
+  with ge; type=LINK;
+  VisibleSide=vsBoth;  material=65535,6520998,0,0,10,1;
+  p1x=; p1y=; p1z=; p2x=-0.04; p2y=; p2z=; axis1=1; angle1=90; 
+  width=1;
+  Density=780; SurfaceWidth=5; WireSection=5;
+  x1=; y1=; z1=;
+  x2=; y2=1; z2=;
+  r=0.1; w=0.04; plane = 1;
+
+  with ge; type=CYLINDER;
+  VisibleSide=vsFront;  material=65535,6520998,0,0,10,1;
+  p1x=-0.02; p1y=; p1z=; p2x=; p2y=; p2z=; axis1=2; angle1=90; 
+  width=1;
+  Density=7800; SurfaceWidth=5; WireSection=5;
+  h=0.04; r1=0.04; r2=0.04;
+  npc=20; npl=2;
+  with ge; type=CYLINDER;
+  VisibleSide=vsFront;  material=65535,6520998,0,0,10,1;
+  p1x=-0.02; p1y=; p1z=1; p2x=; p2y=; p2z=; axis1=2; angle1=90; 
+  width=1;
+  Density=7800; SurfaceWidth=5; WireSection=5;
+  h=0.04; r1=0.04; r2=0.04;
+  npc=20; npl=2;
+with go;
+  name="shin";
+  p1x=; p1y=; p1z=; p2x=; p2y=; p2z=; 
+  with ge; type=LINK;
+  VisibleSide=vsBoth;  material=65408,6520998,0,0,10,1;
+  p1x=; p1y=; p1z=; p2x=; p2y=; p2z=; axis1=1; angle1=90; 
+  width=1;
+  Density=780; SurfaceWidth=5; WireSection=5;
+  x1=; y1=; z1=;
+  x2=; y2=1; z2=;
+  r=0.1; w=0.04; plane = 1;
+
+with go;
+  name="h-hip";
+  p1x=; p1y=; p1z=; p2x=; p2y=; p2z=; 
+  with ge; type=CYLINDER;
+  VisibleSide=vsFront;  material=33023,6520998,0,0,10,1;
+  p1x=; p1y=; p1z=; p2x=; p2y=; p2z=; 
+  width=1;
+  Density=7800; SurfaceWidth=5; WireSection=5;
+  h=1; r1=0.1; r2=0.1;
+  npc=20; npl=2;
+with go;
+  name="h-shin";
+  p1x=; p1y=; p1z=; p2x=; p2y=; p2z=; 
+  with ge; type=CYLINDER;
+  VisibleSide=vsFront;  material=32768,6520998,0,0,10,1;
+  p1x=; p1y=; p1z=; p2x=; p2y=; p2z=; 
+  width=1;
+  Density=7800; SurfaceWidth=5; WireSection=5;
+  h=1; r1=0.1; r2=0.1;
+  npc=20; npl=2;
+$ Тела, их инерционные характеристики и графические образы
+with body1; name="hip"; ppjoint=0; igrobj=2; 
+  AutoCalcInertia=true; m=17.52; ixx=2.4353736; ixy=; ixz=; iyy=2.4131308; iyz=; izz=0.0730928; rcx=-4.738E-18; rcy=2.569E-18; rcz=0.5; 
+    opoints={
+      '' '' '' 'LSC'  '0' '0' '0' '0' '0' '0'
+    };
+with body2; name="shin"; ppjoint=0; igrobj=3; 
+  AutoCalcInertia=true; m=7.215; ixx=0.83081964; ixy=; ixz=; iyy=0.80855477; iyz=; izz=0.024189; rcx=; rcy=1.165E-17; rcz=0.5; 
+    opoints={
+      '' '' '' 'LSC'  '0' '0' '0' '0' '0' '0'
+    };
+with body3; name="h-hip"; ppjoint=0; igrobj=4; 
+  AutoCalcInertia=true; m=241; ixx=20.678857; ixy=; ixz=; iyy=20.678857; iyz=; izz=1.1855046; rcx=2.631E-18; rcy=-8.771E-19; rcz=0.5; 
+    opoints={
+      '' '' '' 'LSC'  '0' '0' '0' '0' '0' '0'
+    };
+with body4; name="h-shin"; ppjoint=0; igrobj=5; 
+  AutoCalcInertia=true; m=241; ixx=20.678857; ixy=; ixz=; iyy=20.678857; iyz=; izz=1.1855046; rcx=2.631E-18; rcy=-8.771E-19; rcz=0.5; 
+    opoints={
+      '' '' '' 'LSC'  '0' '0' '0' '0' '0' '0'
+    };
+
+$ Шарниры, степени свободы, связи, начальные условия
+with joint1; name="jBase0_hip"; type=rotat; bd1="Base0"; bd2="hip"; 
+  with jnt1dof; 
+    ro1x=; ro1y=0.5; ro1z=; ro2x=; ro2y=; ro2z=1; 
+  e1x= 1.; e1y=0; e1z=0; e2x= 1.; e2y=0; e2z=0; 
+  constx=0; consta=0; x0=0; 
+with scalarforce; name="jBase0_hip"; type=none;
+with joint2; name="jhip_shin"; type=rotat; bd1="hip"; bd2="shin"; 
+  with jnt1dof; 
+    ro1x=; ro1y=; ro1z=; ro2x=; ro2y=; ro2z=1; 
+  e1x= 1.; e1y=0; e1z=0; e2x= 1.; e2y=0; e2z=0; 
+  constx=0; consta=0; x0=0; 
+with scalarforce; name="jhip_shin"; type=none;
+with joint3; name="jhip_h-hip"; type=transl; bd1="hip"; bd2="h-hip"; 
+  with jnt1dof; 
+    ro1x=0.2; ro1y=; ro1z=1; ro2x=; ro2y=; ro2z=1; 
+  e1x=0; e1y=0; e1z= 1.; e2x=0; e2y=0; e2z= 1.; 
+  constx=0; consta=0; x0=0; 
+with scalarforce; name="jhip_h-hip"; type=frict;
+  n=1E1000; ffr=1; ffr0=1.2; c=1.0e1000; d=1.0e1000; 
+with joint4; name="jshin_h-shin"; type=transl; bd1="shin"; bd2="h-shin"; 
+  with jnt1dof; 
+    ro1x=0.2; ro1y=; ro1z=1; ro2x=; ro2y=; ro2z=1; 
+  e1x=0; e1y=0; e1z= 1.; e2x=0; e2y=0; e2z= 1.; 
+  constx=0; consta=0; x0=0; 
+with scalarforce; name="jshin_h-shin"; type=frict;
+  n=1E1000; ffr=1; ffr0=1.2; c=1.0e1000; d=1.0e1000; 
+with end;

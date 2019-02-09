@@ -1196,17 +1196,17 @@ double dgam(double alp1, double bet1, double gam1, double alp, double bet, doubl
                            Jba * (-65.30612244897961 * Joc - 4. * mba - 4. * mcb) + 1. * pow(mba,2) * pow(cos(alp - gam),2));
 }
 
-void solveEquations(double moc, double mcb, double mba, double Joc, double Jcb, double Jba, double result[][6], double step){
+void solveEquations(double moc, double mcb, double mba, double Joc, double Jcb, double Jba, double result[][6], double step, int numSteps){
 
 	int i;
 	
 	//here write initial conditions	
-	double dalp_0=0;
-	double dbet_0=0;
-	double dgam_0=0;
-	double alp_0=0;
-	double bet_0=0;
-	double gam_0=0;
+	double dalp_0=1;
+	double dbet_0=1;
+	double dgam_0=1;
+	double alp_0=1;
+	double bet_0=1;
+	double gam_0=1;
 	
 	double y1,y2,y3,y4,y5,y6; //function; y1,y2,y3 is for alp1,bet1,gam1
 	double k11,k12,k13,k14,k15,k16; //k1 vector
@@ -1221,8 +1221,6 @@ void solveEquations(double moc, double mcb, double mba, double Joc, double Jcb, 
 	y4=alp_0;
 	y5=bet_0;
 	y6=gam_0;
-	
-	int numSteps = sizeof(result)/sizeof(result[0]);
 	
 	//here calculation algorithm
 	
@@ -1272,6 +1270,14 @@ void solveEquations(double moc, double mcb, double mba, double Joc, double Jcb, 
 		y4 = y4+step*(k14+k24+k34+k44)/6;
 		y5 = y5+step*(k15+k25+k35+k45)/6;
 		y6 = y6+step*(k16+k26+k36+k46)/6;
+		printf("%f, ", y1);
+		printf("%f, ", y2);
+		printf("%f, ", y3);
+		printf("%f, ", y4);
+		printf("%f, ", y5);
+		printf("%f, ", y6);
+		printf("\n");
+		
 	}
 	
 	return;

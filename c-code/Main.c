@@ -134,7 +134,7 @@ struct Neuron network(struct Neuron* neurList, struct Neuron neuronRl){
 	max = getMax(neurList);
 	return max;
 }
-
+/*
 int main(int argc, char *argv[]) {
 	
 	double approx = 0.2;
@@ -150,7 +150,7 @@ int main(int argc, char *argv[]) {
     double Joc_exp = 0.1137+moc_exp*(0.44*0.44);
     double Jcb_exp = 0.0391+mcb_exp*(0.42*0.42);
     double Jba_exp = 0.0034+mba_exp*(0.44*0.44);
-    
+    //real values (to be deleted)
     double moc_rl = 10.37;
     double mcb_rl = 3.9;
     double mba_rl = 1.241;
@@ -176,7 +176,7 @@ int main(int argc, char *argv[]) {
     res = network(neurList,neurRl);//correct?
     
     //RESULT
-    /*
+    
 	printf("result\n");
     printf("moc: %f\n", moc);
     printf("mcb: %f\n", mcb);
@@ -184,7 +184,8 @@ int main(int argc, char *argv[]) {
     printf("Joc: %f\n", Joc);
     printf("Jcb: %f\n", Jcb);
     printf("Jba: %f\n", Jba);
-    */
+    
     
 	return 0;
 }
+*/

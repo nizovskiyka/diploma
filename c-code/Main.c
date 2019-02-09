@@ -90,9 +90,7 @@ struct Neuron* createList(double approx, double interv, double moc_exp, double m
 	return neurList;
 }
 
-void solveEquations(moc,mcb,mba,Joc,Jcb,Jba){//realise runge-kutta's method.
-	return;
-}
+
 
 //check if correct
 double transfer(double F){
@@ -137,12 +135,14 @@ struct Neuron network(struct Neuron* neurList, struct Neuron neuronRl){
 	return max;
 }
 
-/*int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
 	
 	double approx = 0.2;
 	double interv = 0.7;
+	double solveStep = 0.1;
+	double solveLength = 1; //solving on (0,1) interval
 	
-	double humanWeight=85;
+	double human_weight=85;
 	
 	double moc_exp = 0.1221*human_weight;
     double mcb_exp = 0.0465*human_weight;
@@ -162,18 +162,29 @@ struct Neuron network(struct Neuron* neurList, struct Neuron neuronRl){
     struct Neuron neurRl;
     struct Neuron res;
     
+    int numSteps=0;
+	while(solveLength<solveStep){
+		solveLength-=solveStep;
+		numSteps++;
+	}
+    
+    double solResult[6][numSteps];//maybe won't work
+    
+    
     neurList = createList(approx,interv,moc_exp,mcb_exp,mba_exp,Joc_exp,Jcb_exp,Jba_exp);
     neurRl = initNeuron(moc_rl,mcb_rl,mba_rl,Joc_rl,Jcb_rl,Jba_rl);
-    res = network(neurList,neuronRl);//correct?
+    res = network(neurList,neurRl);//correct?
     
     //RESULT
-    printf("result\n");
+    /*
+	printf("result\n");
     printf("moc: %f\n", moc);
     printf("mcb: %f\n", mcb);
     printf("mba: %f\n", mba);
     printf("Joc: %f\n", Joc);
     printf("Jcb: %f\n", Jcb);
     printf("Jba: %f\n", Jba);
+    */
     
 	return 0;
-}*/
+}

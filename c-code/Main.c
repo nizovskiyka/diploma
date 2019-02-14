@@ -4,6 +4,12 @@
 #include <math.h>
 #include <float.h>
 
+
+#define solveStep 0.1
+#define solveLength 1 //solving on (0,1) interval
+#define numSteps 10
+
+
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 struct Neuron {
@@ -14,13 +20,14 @@ struct Neuron {
 	double Jcb;
 	double Jba;
 	double weight;
-	//result of equation solve
-	//double eq_sol[];
+	double** eq_sol;
 };
 
 //correct
 struct Neuron initNeuron(double moc, double mcb, double mba, double Joc, double Jcb, double Jba){
-	struct Neuron neuron = { moc,mcb,mba,Joc,Jcb,Jba,1};
+	double sol_res[numSteps][6];
+	solveEquations(moc,mcb,mba,Joc,Jcb,Jba,sol_res,solveStep, numSteps);
+	struct Neuron neuron = { moc,mcb,mba,Joc,Jcb,Jba,1,sol_res}; //ok?
 	return neuron;	
 }
 
@@ -104,7 +111,20 @@ double transfer(double F){
 
 //code after diff eq method realisation
 double checkFunc(struct Neuron neur, struct Neuron neur_rl){
-	return 0;
+	double neur_res[numSteps][6] = neur.eq_sol;
+	double neur_rl_res[numSteps][6] = neur_rl.eq_sol;
+	double diff_res[numSteps][6]   //neuron diff array
+	int i,j;
+	double max[6] = {0,0,0,0,0,0};
+	for(i=0;i<6;i++){
+		for(j=0;j<numSteps;j++){
+			diff_res[j][i] = fabs(neur_rl_res[j][i]-neur_res[j][i])   //difference between neur and neur_rl
+			if(diff_res[j][i]>max[i]){    //here searching max among array
+				max[i]=diff_res[j][i];
+			}
+		}
+	}
+	return pow(max[3],2) + pow(max[4],2) + pow(max[5],2); //return sum of y'
 }
 
 //check if correct
@@ -134,13 +154,12 @@ struct Neuron network(struct Neuron* neurList, struct Neuron neuronRl){
 	max = getMax(neurList);
 	return max;
 }
-/*
+
 int main(int argc, char *argv[]) {
 	
 	double approx = 0.2;
 	double interv = 0.7;
-	double solveStep = 0.1;
-	double solveLength = 1; //solving on (0,1) interval
+
 	
 	double human_weight=85;
 	
@@ -162,12 +181,6 @@ int main(int argc, char *argv[]) {
     struct Neuron neurRl;
     struct Neuron res;
     
-    int numSteps=0;
-	while(solveLength<solveStep){
-		solveLength-=solveStep;
-		numSteps++;
-	}
-    
     double solResult[6][numSteps];//maybe won't work
     
     
@@ -177,15 +190,15 @@ int main(int argc, char *argv[]) {
     
     //RESULT
     
-	printf("result\n");
-    printf("moc: %f\n", moc);
-    printf("mcb: %f\n", mcb);
-    printf("mba: %f\n", mba);
-    printf("Joc: %f\n", Joc);
-    printf("Jcb: %f\n", Jcb);
-    printf("Jba: %f\n", Jba);
+//	printf("result\n");
+//    printf("moc: %f\n", moc);
+//    printf("mcb: %f\n", mcb);
+//    printf("mba: %f\n", mba);
+//    printf("Joc: %f\n", Joc);
+//    printf("Jcb: %f\n", Jcb);
+//    printf("Jba: %f\n", Jba);
     
     
 	return 0;
 }
-*/
+

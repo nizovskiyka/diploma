@@ -1196,10 +1196,10 @@ double dgam(double alp1, double bet1, double gam1, double alp, double bet, doubl
                            Jba * (-65.30612244897961 * Joc - 4. * mba - 4. * mcb) + 1. * pow(mba,2) * pow(cos(alp - gam),2));
 }
 
+//the method is bad because the step is constant. in python method
 void solveEquations(double moc, double mcb, double mba, double Joc, double Jcb, double Jba, double result[][6], double step, int numSteps){
 
 	int i;
-	
 	//here write initial conditions	
 	double dalp_0=1;
 	double dbet_0=1;
@@ -1270,13 +1270,6 @@ void solveEquations(double moc, double mcb, double mba, double Joc, double Jcb, 
 		y4 = y4+step*(k14+k24+k34+k44)/6;
 		y5 = y5+step*(k15+k25+k35+k45)/6;
 		y6 = y6+step*(k16+k26+k36+k46)/6;
-		printf("%f, ", y1);
-		printf("%f, ", y2);
-		printf("%f, ", y3);
-		printf("%f, ", y4);
-		printf("%f, ", y5);
-		printf("%f, ", y6);
-		printf("\n");
 		
 	}
 	

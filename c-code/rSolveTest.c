@@ -1,6 +1,6 @@
 #include "rkSolve.h"
 
-int main(int argc, char *argv[]){
+/*int main(int argc, char *argv[]){
 	double approx = 0.2;
 	double interv = 0.7;
 	double solveStep = 0.1;
@@ -24,12 +24,5 @@ int main(int argc, char *argv[]){
 	double solResult[numSteps][6];//maybe won't work
 	
 	solveEquations(moc_rl, mcb_rl, mba_rl, Joc_rl, Jcb_rl, Jba_rl, solResult, solveStep, numSteps);
-	/*
-	for(i=0;i<6;i++){
-		for(j=0;j<numSteps;j++){
-			printf("%f, ", solResult[j][i]);
-		}
-		printf("a\n");
-	}*/
 	return 0;
-}
+}*/

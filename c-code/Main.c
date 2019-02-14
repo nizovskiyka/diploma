@@ -9,6 +9,7 @@
 #define solveLength 1 //solving on (0,1) interval
 #define numSteps 10
 
+/*make a version of the programm without an array in neuron and pull it to test branch*/
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
@@ -111,14 +112,16 @@ double transfer(double F){
 
 //code after diff eq method realisation
 double checkFunc(struct Neuron neur, struct Neuron neur_rl){
-	double neur_res[numSteps][6] = neur.eq_sol;
-	double neur_rl_res[numSteps][6] = neur_rl.eq_sol;
-	double diff_res[numSteps][6]   //neuron diff array
+//	double neur_res[numSteps][6];
+//	double neur_rl_res[numSteps][6];
+	double diff_res[numSteps][6];   //neuron diff array
 	int i,j;
+//	neur_res = neur.eq_sol;
+//	neur_rl_res = neur_rl.eq_sol;
 	double max[6] = {0,0,0,0,0,0};
 	for(i=0;i<6;i++){
 		for(j=0;j<numSteps;j++){
-			diff_res[j][i] = fabs(neur_rl_res[j][i]-neur_res[j][i])   //difference between neur and neur_rl
+			diff_res[j][i] = fabs(neur.eq_sol[j][i]-neur_rl.eq_sol[j][i]);   //difference between neur and neur_rl
 			if(diff_res[j][i]>max[i]){    //here searching max among array
 				max[i]=diff_res[j][i];
 			}

@@ -3,11 +3,14 @@
 #include <malloc.h>
 #include <math.h>
 #include <float.h>
+#include "rkSolve.h"
 
 
 #define solveStep 0.1
 #define solveLength 1 //solving on (0,1) interval
 #define numSteps 10
+#define approx 0.2
+#define interv 0.7
 
 /*make a version of the programm without an array in neuron and pull it to test branch*/
 
@@ -21,22 +24,21 @@ struct Neuron {
 	double Jcb;
 	double Jba;
 	double weight;
-	double** eq_sol;
 };
 
 //correct
 struct Neuron initNeuron(double moc, double mcb, double mba, double Joc, double Jcb, double Jba){
-	double sol_res[numSteps][6];
-	solveEquations(moc,mcb,mba,Joc,Jcb,Jba,sol_res,solveStep, numSteps);
-	struct Neuron neuron = { moc,mcb,mba,Joc,Jcb,Jba,1,sol_res}; //ok?
+	struct Neuron neuron = {moc,mcb,mba,Joc,Jcb,Jba,1}; //ok?
 	return neuron;	
 }
 
 //check if correct
-struct Neuron* createList(double approx, double interv, double moc_exp, double mcb_exp, double mba_exp, double Joc_exp, double Jcb_exp, double Jba_exp){
-	int listLen = 0;//explicit calculation of list length
-	while(interv>approx){
-		interv-=approx;
+struct Neuron* createList(double moc_exp, double mcb_exp, double mba_exp, double Joc_exp, double Jcb_exp, double Jba_exp){
+	int listLen = 0; //explicit calculation of list length
+	double approx_v = approx; //variable
+	double interv_v = interv;
+	while(interv_v>approx_v){
+		interv_v-=approx_v;
 		listLen++;
 	}
 	listLen++;
@@ -112,16 +114,17 @@ double transfer(double F){
 
 //code after diff eq method realisation
 double checkFunc(struct Neuron neur, struct Neuron neur_rl){
-//	double neur_res[numSteps][6];
-//	double neur_rl_res[numSteps][6];
-	double diff_res[numSteps][6];   //neuron diff array
+
+	double neur_sol[numSteps][6];   //neuron solution array
+	double neur_rl_sol[numSteps][6];   //rl neuron solution array
+	double diff_res[numSteps][6];
+	solveEquations(neur.moc,neur.mcb,neur.mba,neur.Joc,neur.Jcb,neur.Jba,neur_sol,solveStep,numSteps);
+	solveEquations(neur_rl.moc,neur_rl.mcb,neur_rl.mba,neur_rl.Joc,neur_rl.Jcb,neur_rl.Jba,neur_rl_sol,solveStep,numSteps);
 	int i,j;
-//	neur_res = neur.eq_sol;
-//	neur_rl_res = neur_rl.eq_sol;
 	double max[6] = {0,0,0,0,0,0};
 	for(i=0;i<6;i++){
 		for(j=0;j<numSteps;j++){
-			diff_res[j][i] = fabs(neur.eq_sol[j][i]-neur_rl.eq_sol[j][i]);   //difference between neur and neur_rl
+			diff_res[j][i] = fabs(neur_sol[j][i]-neur_rl_sol[j][i]);   //difference between neur and neur_rl
 			if(diff_res[j][i]>max[i]){    //here searching max among array
 				max[i]=diff_res[j][i];
 			}
@@ -133,9 +136,17 @@ double checkFunc(struct Neuron neur, struct Neuron neur_rl){
 //check if correct
 struct Neuron getMax(struct Neuron* neurList){
 	struct Neuron maxNeuron = neurList[0];
-	int length = sizeof(neurList)/sizeof(neurList[0]);//right?
+	int listLen = 0; //explicit calculation of list length
+	double approx_v = approx; //variable
+	double interv_v = interv;
+	while(interv_v>approx_v){
+		interv_v-=approx_v;
+		listLen++;
+	}
+	listLen++;
+	listLen = pow(listLen, 6);
 	int i;
-	for(i=0;i<length;i++){
+	for(i=0;i<listLen;i++){
 		if(neurList[i].weight>maxNeuron.weight){
 			maxNeuron = neurList[i];
 		}
@@ -145,11 +156,19 @@ struct Neuron getMax(struct Neuron* neurList){
 
 struct Neuron network(struct Neuron* neurList, struct Neuron neuronRl){
 	int i;
-	int length = sizeof(neurList)/sizeof(neurList[0]); //right?
+	int listLen = 0; //explicit calculation of list length
+	double approx_v = approx; //variable
+	double interv_v = interv;
+	while(interv_v>approx_v){
+		interv_v-=approx_v;
+		listLen++;
+	}
+	listLen++;
+	listLen = pow(listLen, 6);
 	struct Neuron max; //storage size of isn't known
 	double check;
 	double weightCoeff;
-	for(i=0;i<length;i++){
+	for(i=0;i<listLen;i++){
 		check = checkFunc(neurList[i],neuronRl);
 		weightCoeff = transfer(check);
 		neurList[i].weight*=weightCoeff;
@@ -160,8 +179,7 @@ struct Neuron network(struct Neuron* neurList, struct Neuron neuronRl){
 
 int main(int argc, char *argv[]) {
 	
-	double approx = 0.2;
-	double interv = 0.7;
+
 
 	
 	double human_weight=85;
@@ -187,20 +205,12 @@ int main(int argc, char *argv[]) {
     double solResult[6][numSteps];//maybe won't work
     
     
-    neurList = createList(approx,interv,moc_exp,mcb_exp,mba_exp,Joc_exp,Jcb_exp,Jba_exp);
+    neurList = createList(moc_exp,mcb_exp,mba_exp,Joc_exp,Jcb_exp,Jba_exp);
+    printf("list created\n");
     neurRl = initNeuron(moc_rl,mcb_rl,mba_rl,Joc_rl,Jcb_rl,Jba_rl);
+    printf("real neuron values: %f, %f, %f, %f, %f, %f, %f\n", neurRl.moc, neurRl.mcb, neurRl.mba, neurRl.Joc, neurRl.Jcb, neurRl.Jba);
     res = network(neurList,neurRl);//correct?
-    
-    //RESULT
-    
-//	printf("result\n");
-//    printf("moc: %f\n", moc);
-//    printf("mcb: %f\n", mcb);
-//    printf("mba: %f\n", mba);
-//    printf("Joc: %f\n", Joc);
-//    printf("Jcb: %f\n", Jcb);
-//    printf("Jba: %f\n", Jba);
-    
+    printf("found neuron values: %f, %f, %f, %f, %f, %f, %f\n", res.moc, res.mcb, res.mba, res.Joc, res.Jcb, res.Jba, res.weight);
     
 	return 0;
 }

@@ -1,3 +1,11 @@
+/*TODO*/
+/*
+-apply list construction to the rk-solve method
+-find and apply interpolation algorythm
+-remake r-k method with an adaptive step
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
@@ -28,11 +36,11 @@ struct Neuron {
 
 //correct
 struct Neuron initNeuron(double moc, double mcb, double mba, double Joc, double Jcb, double Jba){
-	struct Neuron neuron = {moc,mcb,mba,Joc,Jcb,Jba,1}; //ok?
+	struct Neuron neuron = {moc,mcb,mba,Joc,Jcb,Jba,1};
 	return neuron;	
 }
 
-//check if correct
+//correct
 struct Neuron* createList(double moc_exp, double mcb_exp, double mba_exp, double Joc_exp, double Jcb_exp, double Jba_exp){
 	int listLen = 0; //explicit calculation of list length
 	double approx_v = approx; //variable
@@ -104,7 +112,8 @@ struct Neuron* createList(double moc_exp, double mcb_exp, double mba_exp, double
 
 //check if correct
 double transfer(double F){
-	if(abs(F)<2*DBL_EPSILON){
+	if(fabs(F)<2*2.20e-16){
+		printf("fabs(f) %f\n", fabs(F));
 		return 1;
 	}
 	else{
@@ -112,6 +121,7 @@ double transfer(double F){
 	}
 }
 
+//bad
 //code after diff eq method realisation
 double checkFunc(struct Neuron neur, struct Neuron neur_rl){
 
@@ -150,6 +160,7 @@ struct Neuron getMax(struct Neuron* neurList){
 		if(neurList[i].weight>maxNeuron.weight){
 			maxNeuron = neurList[i];
 		}
+		
 	}
 	return maxNeuron;
 }
@@ -170,7 +181,7 @@ struct Neuron network(struct Neuron* neurList, struct Neuron neuronRl){
 	double weightCoeff;
 	for(i=0;i<listLen;i++){
 		check = checkFunc(neurList[i],neuronRl);
-		weightCoeff = transfer(check);
+		weightCoeff = transfer(check);//bug here
 		neurList[i].weight*=weightCoeff;
 	}
 	max = getMax(neurList);
@@ -208,8 +219,9 @@ int main(int argc, char *argv[]) {
     neurList = createList(moc_exp,mcb_exp,mba_exp,Joc_exp,Jcb_exp,Jba_exp);
     printf("list created\n");
     neurRl = initNeuron(moc_rl,mcb_rl,mba_rl,Joc_rl,Jcb_rl,Jba_rl);
-    printf("real neuron values: %f, %f, %f, %f, %f, %f, %f\n", neurRl.moc, neurRl.mcb, neurRl.mba, neurRl.Joc, neurRl.Jcb, neurRl.Jba);
+    
     res = network(neurList,neurRl);//correct?
+    printf("real neuron values: %f, %f, %f, %f, %f, %f, %f\n", neurRl.moc, neurRl.mcb, neurRl.mba, neurRl.Joc, neurRl.Jcb, neurRl.Jba, neurRl.weight);
     printf("found neuron values: %f, %f, %f, %f, %f, %f, %f\n", res.moc, res.mcb, res.mba, res.Joc, res.Jcb, res.Jba, res.weight);
     
 	return 0;

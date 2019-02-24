@@ -113,7 +113,6 @@ struct Neuron* createList(double moc_exp, double mcb_exp, double mba_exp, double
 //check if correct
 double transfer(double F){
 	if(fabs(F)<2*2.20e-16){
-		printf("fabs(f) %f\n", fabs(F));
 		return 1;
 	}
 	else{
@@ -140,6 +139,8 @@ double checkFunc(struct Neuron neur, struct Neuron neur_rl){
 			}
 		}
 	}
+	//max[1],max[2],max[3] are zero here!!!
+//	printf("%f,%f,%f,%f,%f,%f\n", max[0],max[1],max[2],max[3],max[4],max[5]);
 	return pow(max[3],2) + pow(max[4],2) + pow(max[5],2); //return sum of y'
 }
 
@@ -181,7 +182,7 @@ struct Neuron network(struct Neuron* neurList, struct Neuron neuronRl){
 	double weightCoeff;
 	for(i=0;i<listLen;i++){
 		check = checkFunc(neurList[i],neuronRl);
-		weightCoeff = transfer(check);//bug here
+		weightCoeff = transfer(check);
 		neurList[i].weight*=weightCoeff;
 	}
 	max = getMax(neurList);
@@ -223,7 +224,7 @@ int main(int argc, char *argv[]) {
     res = network(neurList,neurRl);//correct?
     printf("real neuron values: %f, %f, %f, %f, %f, %f, %f\n", neurRl.moc, neurRl.mcb, neurRl.mba, neurRl.Joc, neurRl.Jcb, neurRl.Jba, neurRl.weight);
     printf("found neuron values: %f, %f, %f, %f, %f, %f, %f\n", res.moc, res.mcb, res.mba, res.Joc, res.Jcb, res.Jba, res.weight);
+    free(neurList);
     
 	return 0;
 }
-

@@ -1,6 +1,8 @@
 #include <math.h>
 #include <stdio.h>
 
+//y1=y2=y3 --?
+
 //ode system
 double ddalp(double alp1){
 	return alp1;
@@ -1200,13 +1202,13 @@ double dgam(double alp1, double bet1, double gam1, double alp, double bet, doubl
 void solveEquations(double moc, double mcb, double mba, double Joc, double Jcb, double Jba, double result[][6], double step, int numSteps){
 
 	int i;
-	//here write initial conditions	
-	double dalp_0=1;
-	double dbet_0=1;
-	double dgam_0=1;
-	double alp_0=1;
-	double bet_0=1;
-	double gam_0=1;
+	//here write initial conditions
+//	double dalp_0=1;
+//	double dbet_0=0;
+//	double dgam_0=0;
+//	double alp_0=0;
+//	double bet_0=0;
+//	double gam_0=0;
 	
 	double y1,y2,y3,y4,y5,y6; //function; y1,y2,y3 is for alp1,bet1,gam1
 	double k11,k12,k13,k14,k15,k16; //k1 vector
@@ -1215,12 +1217,12 @@ void solveEquations(double moc, double mcb, double mba, double Joc, double Jcb, 
 	double k41,k42,k43,k44,k45,k46; //k4 vector
 	
 	//init cond set
-	y1=dalp_0;
-	y2=dbet_0;
-	y3=dgam_0;
-	y4=alp_0;
-	y5=bet_0;
-	y6=gam_0;
+	y1=1;
+	y2=1;
+	y3=1;
+	y4=1;
+	y5=1;
+	y6=1;
 	
 	//here calculation algorithm
 	
@@ -1263,13 +1265,27 @@ void solveEquations(double moc, double mcb, double mba, double Joc, double Jcb, 
 		result[i][5] = y5;
 		result[i][6] = y6;
 		
+		printf("y1: %f\n", y1);
+		printf("y2: %f\n", y2);
+		printf("y3: %f\n", y3);
+		printf("y4: %f\n", y4);
+		printf("y5: %f\n", y5);
+		printf("y6: %f\n", y6);
+		
 		//calculating next y
-		y1 = y1+step*(k11+k21+k31+k41)/6;
-		y2 = y2+step*(k12+k22+k32+k42)/6;
-		y3 = y3+step*(k13+k23+k33+k43)/6;
-		y4 = y4+step*(k14+k24+k34+k44)/6;
-		y5 = y5+step*(k15+k25+k35+k45)/6;
-		y6 = y6+step*(k16+k26+k36+k46)/6;
+		y1 = y1+step*(k11+2*k21+2*k31+k41)/6;
+		y2 = y2+step*(k12+2*k22+2*k32+k42)/6;
+		y3 = y3+step*(k13+2*k23+2*k33+k43)/6;
+		y4 = y4+step*(k14+2*k24+2*k34+k44)/6;
+		y5 = y5+step*(k15+2*k25+2*k35+k45)/6;
+		y6 = y6+step*(k16+2*k26+2*k36+k46)/6;
+		
+//		printf("y1: %f\n", y1);
+//		printf("y2: %f\n", y2);
+//		printf("y3: %f\n", y3);
+//		printf("y4: %f\n", y4);
+//		printf("y5: %f\n", y5);
+//		printf("y6: %f\n", y6);
 		
 	}
 	

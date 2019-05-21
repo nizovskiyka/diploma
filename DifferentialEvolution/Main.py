@@ -53,7 +53,7 @@ class Reader:
     def __init__(self, hip_pos_filename, shin_pos_filename, foot_pos_filename, hip_vel_filename, shin_vel_filename, foot_vel_filename):
         # self.data = [self.read_hip_pos(hip_pos_filename), self.read_shin_pos(shin_pos_filename), self.read_foot_pos(foot_pos_filename),
         #             self.read_hip_vel(hip_vel_filename), self.read_shin_vel(shin_vel_filename), self.read_foot_vel(foot_vel_filename)]
-        self.data = solve_equations(moc=22,mcb=7,mba=2,Joc=0.3,Jcb=0.08,Jba=0.0008,koc=0.18,kcb=0.15,kba=0.035)
+        self.data = solve_equations(moc=22,mcb=7,mba=2,Joc=0.8,Jcb=0.3,Jba=0.0008,koc=0.18,kcb=0.15,kba=0.035)
         pass
 
     def read_hip_pos(self, hip_pos_filename):
@@ -474,10 +474,15 @@ if __name__ == '__main__':
               (0.2, 0.4), (0.07, 0.09), (0.0007, 0.0009),
               (0.17,0.19), (0.14,0.16), (0.03, 0.04)]
 
-    t = time.clock()
+    t = time.time()
+    t2 = time.clock()
     #tolerance is for precision tolerance. the lower value - the greater precision. it stands somewhere in [0,1]
     res = diff_evolution(bounds, tol=0.95, atol = 0.6) #t=0.9
-    print(time.clock() - t)
+    print(time.time() - t)
+    print(time.clock()-t2)
+
 
     print("result")
     print(res)
+    #print(qual_func([21.9,7.2, 2.3, 0.6, 0.35, 0.001,  0.16, 0.14, 0.031]))
+    #print(qual_func([22,  7,   2,   0.8, 0.3,  0.0008, 0.18, 0.15, 0.035]))
